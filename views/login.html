@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon" />
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body style="padding: 0px;margin:0px;">
+    <div id="app" style="background-image:url(../static/images/login_backimg.png);background-repeat: no-repeat;background-size: cover;border: 0px;">
+
+        <el-row>
+            <el-col :span="8"><div class="grid-content">
+                <el-button type="primary" icon="el-icon-arrow-left" style="background-color: rgba(120, 120, 120,0);border: 0px;">返回主页</el-button>
+            </div></el-col>
+            <el-col :span="8"><div class="grid-content">
+
+                <el-container>
+                    <el-main style="background-color: rgba(255, 255, 255, 0.85);height: auto;width: auto;border: solid rgba(16, 89, 223,0.6);margin-top: 20%;margin-bottom: 10%;padding-left: 5%;padding-right: 5%;border-radius: 2%;">
+                        <h1 style="text-align: center;color:deepskyblue;">~用色彩渲染世界~</h1>
+                        <div style="background-color: aquamarine;max-width: 150px;max-height: 150px;width: auto;height: auto;margin-left: auto;margin-right: auto;margin-top: 50px;border-radius: 50%;border: solid skyblue;">
+                            <img id="verifyimg" src="../static/images/verify_img.png" style="width: 100%;height: 100%;border-radius: 50%;max-width: 150px;max-height: 150px;">
+                        </div>
+                        <div style="width: 50%;margin-bottom: 50px;margin-left: auto;margin-right: auto;text-align: center;">
+                            滑动滑块使图片转正
+                            <el-slider v-model="slider_value"  @input="changeRotate" :show-tooltip="false" @change="stopRotate" max="360" :disabled="verify_ok"></el-slider>
+                        </div>
+
+
+                        <el-form ref="LoginForm" :model="LoginForm" label-width="60px" :rules="LoginFormRules">
+                            <el-form-item label="账号:" prop="email">
+                                <el-input type="email" v-model="LoginForm.email" autocomplete="off" placeholder="请输入你的邮箱"></el-input>
+                            </el-form-item>
+                            <el-form-item label="密码:" prop="password">
+                                <el-input type="password" v-model="LoginForm.password" autocomplete="off" placeholder="密码8-20位"></el-input>
+                                
+                            </el-form-item>
+                            <div style="margin-left: 82%;">
+                                <el-link type="primary">忘记密码</el-link>
+                            </div>
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmit('LoginForm')" style="margin-left: 33%;" >一键登录</el-button>  
+                            </el-form-item>
+                        </el-form>
+
+
+                        <div style="margin-left: 65%;">
+                            没有账号？<el-link type="primary">立即注册-></el-link>
+                        </div>
+                    </el-main>
+                  </el-container>
+            </div></el-col>
+            <el-col :span="8"><div class="grid-content"></div></el-col>
+          </el-row>
+
+
+
+    </div>
+</body>
+
+<style>
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+</style>
+
+<script>
+    new Vue({
+    el: '#app',
+    data: function() {
+        return {
+            LoginForm: {
+                email:"",
+                password:""
+            },
+            LoginFormRules:{
+                email:[
+                    { required: true, message: '请输入用户邮箱', trigger: 'blur' },
+                    { type: 'email', message: '邮箱填写不正确', trigger: 'blur' } //表单属性自动验证:是否为邮箱
+                ],
+                password:[
+                    { required: true, message: '请输入密码', trigger: 'blur' },
+                    { min: 8, max: 20, message: '密码长度在 8 到 20 个字符', trigger: 'blur' } //表单属性自动验证:是否长度达标
+                ]
+
+            },
+            slider_value:0,
+            init_rotate: Math.ceil(Math.random()*180+90),
+            first_slider:false,
+            verify_ok:false
+            }       
+    },
+    methods:{
+        changeRotate(){
+            if(this.first_slider == true){
+                var vimg = document.getElementById("verifyimg");
+                vimg.style.transform='rotate(' + (this.slider_value + this.init_rotate)+ "deg)"
+                if((this.slider_value + this.init_rotate) > 350 && (this.slider_value + this.init_rotate) < 370 ){
+                    this.verify_ok = true
+
+                }else{
+                    this.verify_ok = false
+                }
+            }
+            if (this.first_slider == false){
+                this.first_slider = true
+                var vimg = document.getElementById("verifyimg");
+                vimg.style.transform='rotate(' + this.init_rotate+ "deg)"
+            }
+        },
+        stopRotate(){
+            if(this.verify_ok == false){
+                this.slider_value = 0
+                this.first_slider = false
+            }
+            if(this.verify_ok == true){
+                this.$message({
+                showClose: true,
+                message: '验证成功',
+                type: 'success'
+                });
+            }   
+        },
+        onSubmit(formName) {
+            this.$refs[formName].validate((valid) => {
+            if (valid && this.verify_ok==true) {
+                alert('submit!');
+                // 这里 ajax进行post
+            } else {
+                if (this.verify_ok==false){
+                    this.$message.error('请先旋转图片进行验证');
+                }
+                return false;
+            }
+            });
+      },
+        
+    },
+
+    })
+</script>
+</html>
