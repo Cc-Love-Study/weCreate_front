@@ -19,8 +19,8 @@ func NewUserController(r *gin.Engine, name string, userService *services.UserSer
 
 // 路由注册
 func (u *UserController) InitUserController() {
-	u.UserRouterGroup.GET("/register", u.UserService.GetLoginPage)
+	u.UserRouterGroup.GET("/register", u.UserService.GetRegisterPage)
+	u.UserRouterGroup.POST("/register/post", u.UserService.PostRegisterInfo)
 	u.UserRouterGroup.GET("/login", u.UserService.GetLoginPage)
 	u.UserRouterGroup.POST("/login/post", u.UserService.PostLoginInfo)
-
 }

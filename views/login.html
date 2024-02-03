@@ -20,12 +20,12 @@
 
         <el-row>
             <el-col :span="8"><div class="grid-content">
-                <el-button type="primary" icon="el-icon-arrow-left" style="background-color: rgba(120, 120, 120,0);border: 0px;">返回主页</el-button>
+                <el-link :underline="false" href="/login"  icon="el-icon-arrow-left" style="color: aliceblue;">返回上一页</el-link>
             </div></el-col>
             <el-col :span="8"><div class="grid-content">
 
                 <el-container>
-                    <el-main style="background-color: rgba(255, 255, 255, 0.85);height: auto;width: auto;border: solid rgba(16, 89, 223,0.6);margin-top: 20%;margin-bottom: 10%;padding-left: 5%;padding-right: 5%;border-radius: 2%;">
+                    <el-main style="background-color: rgba(255, 255, 255, 0.85);height: auto;width: auto;border: solid rgba(16, 89, 223,0.6);margin-top: 20%;margin-bottom: 40%;padding-left: 5%;padding-right: 5%;border-radius: 2%;">
                         <h1 style="text-align: center;color:deepskyblue;">~用色彩渲染世界~</h1>
                         <div style="background-color: aquamarine;max-width: 150px;max-height: 150px;width: auto;height: auto;margin-left: auto;margin-right: auto;margin-top: 50px;border-radius: 50%;border: solid skyblue;">
                             <img id="verifyimg" src="../static/images/verify_img.png" style="width: 100%;height: 100%;border-radius: 50%;max-width: 150px;max-height: 150px;">
@@ -41,7 +41,7 @@
                                 <el-input type="email" v-model="LoginForm.email" autocomplete="off" placeholder="请输入你的邮箱"></el-input>
                             </el-form-item>
                             <el-form-item label="密码:" prop="password">
-                                <el-input type="password" v-model="LoginForm.password" autocomplete="off" placeholder="密码8-20位"></el-input>
+                                <el-input type="password" v-model="LoginForm.password" autocomplete="off" placeholder="密码8-20位" show-password></el-input>
                                 
                             </el-form-item>
                             <div style="margin-left: 82%;">
@@ -54,7 +54,7 @@
 
 
                         <div style="margin-left: 65%;">
-                            没有账号？<el-link type="primary">立即注册-></el-link>
+                            没有账号？<el-link type="primary" href="/register">立即注册-></el-link>
                         </div>
                     </el-main>
                   </el-container>

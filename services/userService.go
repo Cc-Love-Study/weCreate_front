@@ -2,6 +2,7 @@ package services
 
 import (
 	"net/http"
+	"weCreate/models"
 	"weCreate/utils"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,10 @@ func (u *UserService) GetLoginPage(ctx *gin.Context) {
 	ctx.HTML(http.StatusOK, "login.html", gin.H{})
 	return
 }
+func (u *UserService) GetRegisterPage(ctx *gin.Context) {
+	ctx.HTML(http.StatusOK, "register.html", gin.H{})
+	return
+}
 
 func (u *UserService) PostLoginInfo(c *gin.Context) {
 	var (
@@ -30,5 +35,17 @@ func (u *UserService) PostLoginInfo(c *gin.Context) {
 	password = c.PostForm("password")
 	// 路由转发 到后端 登录函数 接收后端返回内容 完成登录 如果登录成功给前端设置cookie
 	c.JSON(http.StatusOK, u.Utils.ReturnSucess(200, "登录消息完成", gin.H{"email": email, "password": password}, 0))
+	return
+}
+
+func (u *UserService) PostRegisterInfo(c *gin.Context) {
+	email := c.PostForm("email")
+	password := c.PostForm("password")
+	phone := c.PostForm("phone")
+	passquestion := c.PostForm("passquestion")
+	questionres := c.PostForm("questionres")
+	user := models.NewUser(email, password, phone, passquestion, questionres)
+	// 路由转发 到后端 登录函数 接收后端返回内容 完成登录 如果登录成功给前端设置cookie
+	c.JSON(http.StatusOK, u.Utils.ReturnSucess(200, "登录消息完成", user, 0))
 	return
 }
