@@ -13,21 +13,21 @@
     <script src="https://unpkg.com/element-ui/lib/index.js"></script>
     <!-- 引入jquery  -->
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
-
 </head>
 <body style="margin:0px;">
     <div id="app" >
         <el-container style="background-color:rgba(30, 133, 180, 0.1)">
             <el-header :style="'background-image:url('+head_back+');background-repeat: no-repeat;background-size: cover;border: 0px;height: 160px;'">
                 <el-menu :default-active="activeIndex"  mode="horizontal" style="background-color: rgba(0, 0, 0, 0);" text-color=#ffffff active-text-color=#ffffff @select="selectIndex">
-                    <el-menu-item index="1">主页</el-menu-item>
-                    <el-menu-item index="2">社区</el-menu-item>
+                    <el-menu-item index="index">主页</el-menu-item>
+                    <el-menu-item index="community">社区</el-menu-item>
                     <el-menu-item index="3">我的发布</el-menu-item>
                     <el-menu-item index="4">我的关注</el-menu-item>
+                    <el-menu-item index="announcement">公告</el-menu-item>
                     <el-menu-item index="5">weCreate工作台</el-menu-item>
                     
                     <el-menu-item index="login" style="float: right;">登录</el-menu-item>
-                    <el-menu-item index="register" style="float: right;" ><a href="/register" style=" text-decoration:none">注册</a></el-menu-item>
+                    <el-menu-item index="register" style="float: right;" >注册</el-menu-item>
                 </el-menu>
             </el-header>
 
@@ -42,15 +42,15 @@
 
 
                         <div style="background-size: cover;background-image: url(../static/images/rank1_back.png);height: 450px;width: 100%;background-color: rgb(255, 255, 255); margin-bottom: 5%;margin-top: 30%;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);">
-                            <div style="height: 5%;text-align: center;margin-bottom: 10%;">
+                            <div style="height: 5%;text-align: center;margin-bottom: 10%;color: rgb(0, 175, 166);">
                                 <h1>最高热度</h1>
                             </div>
                             <div v-for="it,index in rankOne" style="height:9%;text-align: center;" >
                                 <a :href="it.link" style="color: black;">
                                 <el-row>
-                                    <el-col :span="8"><div style="text-align: center;"> {{index+1}}</div></el-col>
-                                    <el-col :span="8"><div  style="text-align: center;">{{it.label}}</div></el-col>
-                                    <el-col :span="8"><div style="text-align: center;">{{it.author}}</div></el-col>
+                                    <el-col :span="8"><div style="text-align: center;"> {[index+1]}</div></el-col>
+                                    <el-col :span="8"><div  style="text-align: center;">{[it.label]}</div></el-col>
+                                    <el-col :span="8"><div style="text-align: center;"> {[it.author]}</div></el-col>
                                 </el-row>
                                 </a>
                             </div>
@@ -59,15 +59,15 @@
 
 
                         <div style="background-size: cover;background-image: url(../static/images/rank2_back.png);height: 450px;width: 100%;background-color: rgb(255, 255, 255); margin-bottom: 5%;box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, .04)">
-                            <div style="height: 10%;text-align: center;">
+                            <div style="height: 10%;text-align: center;color: hotpink;">
                                 <h1>最好评价</h1>
                             </div>
-                            <div v-for="it,index in rankOne" style="height:9%;text-align: center;" >
+                            <div v-for="it,index in rankOne.slice(0,10)" style="height:9%;text-align: center;" >
                                 <a :href="it.link" style="color: black;">
                                 <el-row>
-                                    <el-col :span="8"><div style="text-align: center;"> {{index+1}}</div></el-col>
-                                    <el-col :span="8"><div  style="text-align: center;">{{it.label}}</div></el-col>
-                                    <el-col :span="8"><div style="text-align: center;">{{it.author}}</div></el-col>
+                                    <el-col :span="8"><div style="text-align: center;">{[index+1]}</div></el-col>
+                                    <el-col :span="8"><div  style="text-align: center;">{[it.label]}</div></el-col>
+                                    <el-col :span="8"><div style="text-align: center;">{[it.author]}</div></el-col>
                                 </el-row>
                                 </a>
                             </div>
@@ -121,13 +121,13 @@
                                     <img :src='imginfo.imgurl' style="height: 150px;width: 100%;">
                                     <el-rate v-model='imginfo.rate' disabled></el-rate>
                                     <div style="padding: 14px;">
-                                      <span value=""><a :href="imginfo.link" style="text-decoration: none;">{{imginfo.title}}</a></span>
+                                      <span value=""><a :href="imginfo.link" style="text-decoration: none;">{[imginfo.title]}</a></span>
                                     </div>
                                     <el-tag size="mini">
-                                        {{imginfo.size}}
+                                        {[imginfo.size]}
                                     </el-tag>
                                     <el-tag type="success" v-for='lab in imginfo.labs.slice(0,3)' size="mini"  style="margin: 1%;">
-                                        {{lab}}
+                                        {[lab]}
                                     </el-tag>
                                   </el-card>
                                 </el-col>
@@ -169,6 +169,7 @@
             height:100%;
             width: 100%;
             object-fit: fill;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
     }
 
     .el-menu--horizontal.el-menu{
@@ -193,6 +194,7 @@
 <script>
     new Vue({
     el: '#app',
+    delimiters:['{[',']}'],
     data: function() {
         return {
                 style_options:[{label:'无',value:'noselect'},{label:'动漫',value:'1'},{label:'写实',value:'2'}],
@@ -204,7 +206,7 @@
                 search:"",
                 mypage:1,
                 total_nums:12,
-                activeIndex:"1",
+                activeIndex:"index",
                 // 头部图片
                 head_back:"../static/images/head_back.png",
                 // 底部图片
@@ -360,14 +362,24 @@
             }       
     },
     methods: {
-      selectIndex(key) {
-        if (key == "login"){
-            window.location.href = "/login"
+        selectIndex(key) {
+            if (key == "login"){
+                window.location.href = "/login"
+            }
+            if (key == "register"){
+                window.location.href = "/register"
+            }
+            if (key == "index"){
+                window.location.href = "/index"
+            }
+            if (key == "community"){
+                window.location.href = "/community"
+            }
+            if (key == "announcement"){
+                window.location.href = "/announcement"
+            }
+            
         }
-        if (key == "register"){
-            window.location.href = "/register"
-        }
-      }
     }
 
     })

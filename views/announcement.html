@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon" />
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入jquery  -->
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+
+</head>
+<body style="margin:0px;">
+    <div id="app" >
+        <el-container style="background-color:rgba(30, 133, 180, 0.1)">
+            <el-header :style="'background-image:url('+head_back+');background-repeat: no-repeat;background-size: cover;border: 0px;height: 160px;'">
+                <el-menu :default-active="activeIndex"  mode="horizontal" style="background-color: rgba(0, 0, 0, 0);" text-color=#ffffff active-text-color=#ffffff @select="selectIndex">
+                    <el-menu-item index="index">主页</el-menu-item>
+                    <el-menu-item index="community">社区</el-menu-item>
+                    <el-menu-item index="3">我的发布</el-menu-item>
+                    <el-menu-item index="4">我的关注</el-menu-item>
+                    <el-menu-item index="announcement">公告</el-menu-item>
+                    <el-menu-item index="5">weCreate工作台</el-menu-item>
+                    
+                    <el-menu-item index="login" style="float: right;">登录</el-menu-item>
+                    <el-menu-item index="register" style="float: right;" >注册</el-menu-item>
+                </el-menu>
+            </el-header>
+
+            <el-main style="margin: 2%;">
+                <el-row>
+                    <el-col :span="20">
+                        <h1 style="text-align: center;">
+                            公告
+                        </h1>
+                        <el-timeline>
+                            <el-timeline-item v-for="an in announcements" :timestamp="an.times" placement="top" :type="an.level" size="large" style="width: 95%;">
+                              <el-card>
+                                <h4>{[an.title]}</h4>
+                                <p>{[an.info]}</p>
+                                
+                              </el-card>
+                            </el-timeline-item>
+                          </el-timeline>
+                        <div style="text-align: center;">
+                            <el-pagination
+                                background
+                                :current-page.sync='mypage'
+                                :total="total_nums"
+                                :page-size="12"
+                                layout="prev, pager, next"
+                            >
+                          </el-pagination>
+                          </div>
+
+                    </el-col>
+                    <el-col :span="4">
+                        <a :href="right_img.linkurl">
+                            <img :src='right_img.imgurl' style="height:900px;width: 100%;margin-top: 30%;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+                        </a>
+
+                    </el-col>
+                </el-row>
+
+            </el-main>
+
+            <el-footer :style="'background-image:url('+foot_back+');background-repeat: no-repeat;background-size: cover;border: 0px;height: 64px;'"></el-footer>
+          </el-container>
+    </div>
+</body>
+
+<style>
+
+    .showimgs{
+            border-radius: 2%;
+            height:100%;
+            width: 100%;
+            object-fit: fill;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+    }
+
+    .el-menu--horizontal.el-menu{
+        border-bottom: 0px;
+        text-decoration: none;
+    }
+
+    .el-menu-item.is-active{
+        background-color: rgba(0, 0, 0, 0) !important;
+
+    }
+    .el-menu-item:hover{
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        
+    }
+ 
+
+
+</style>
+
+
+<script>
+    new Vue({
+    el: '#app',
+    delimiters:['{[',']}'],
+    data: function() {
+        return {
+                activeIndex:"announcement",
+            //  
+                announcements:[
+                    {
+                        times:"2018/4/12",
+                        title:"关于改进项目的一些通知",
+                        info:"一些通知",
+                        level:"danger",
+                        
+                    },                    {
+                        times:"2018/4/13",
+                        title:"关于改进项目的一些通知",
+                        info:"一些通知",
+                        level:"info",
+                        
+                    },
+                    {
+                        times:"2018/4/14",
+                        title:"关于改进项目的一些通知",
+                        info:"一些通知",
+                        level:"warning",
+                        
+                    }
+                ],
+
+                mypage:1,
+                total_nums:12,
+                // 头部图片
+                head_back:"../static/images/head_back.png",
+                // 底部图片
+                foot_back:"../static/images/foot_back.png",
+                // 右侧渲染广告图片
+                right_img:{
+                    imgurl:"../static/images/right_back.png",
+                    linkurl:"../static/images/right_back.png"
+                },
+            }       
+    },
+    methods: {
+        selectIndex(key) {
+            if (key == "login"){
+                window.location.href = "/login"
+            }
+            if (key == "register"){
+                window.location.href = "/register"
+            }
+            if (key == "index"){
+                window.location.href = "/index"
+            }
+            if (key == "community"){
+                window.location.href = "/community"
+            }
+            if (key == "announcement"){
+                window.location.href = "/announcement"
+            }
+            
+        }
+        }
+    })
+</script>
+</html>

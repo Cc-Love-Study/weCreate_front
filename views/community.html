@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon" />
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入jquery  -->
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+
+</head>
+<body style="margin:0px;">
+    <div id="app" >
+        <el-container style="background-color:rgba(30, 133, 180, 0.1)">
+            <el-header :style="'background-image:url('+head_back+');background-repeat: no-repeat;background-size: cover;border: 0px;height: 160px;'">
+                <el-menu :default-active="activeIndex"  mode="horizontal" style="background-color: rgba(0, 0, 0, 0);" text-color=#ffffff active-text-color=#ffffff @select="selectIndex">
+                    <el-menu-item index="index">主页</el-menu-item>
+                    <el-menu-item index="community">社区</el-menu-item>
+                    <el-menu-item index="3">我的发布</el-menu-item>
+                    <el-menu-item index="4">我的关注</el-menu-item>
+                    <el-menu-item index="announcement">公告</el-menu-item>
+                    <el-menu-item index="5">weCreate工作台</el-menu-item>
+                    
+                    <el-menu-item index="login" style="float: right;">登录</el-menu-item>
+                    <el-menu-item index="register" style="float: right;" >注册</el-menu-item>
+                </el-menu>
+            </el-header>
+            <el-main style="margin: 2%;">
+
+                <el-row>
+                    <el-col :span="20">
+
+                        <div v-for="essay in essays" style="box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);height:160px;width: auto;;text-align: center;background-color: rgba(16, 160, 160, 0.493);margin: 5%;">
+                            <a :href="essay.link" style="color: black;">
+                            <el-row>
+                                <el-col :span="24"><div style="text-align: center;">
+                                    <h1 style="margin-left:30%; text-align: left;margin-bottom: 1%;">{[essay.title]}</h1>
+                                    <div>
+                                        <el-avatar :size="70" :src="essay.headimg" style="float: left;margin-left: 3%;"></el-avatar> 
+                                        <div style="float: left;margin-left: 3%;"> 
+                                            <el-statistic
+                                            group-separator=","
+                                            :precision="0"
+                                            decimal-separator="."
+                                            :value="essay.contrb_count"
+                                            :title="essay.contrb_title">
+                                            <template slot="prefix">
+                                              <i class="el-icon-s-flag" style="color: red"></i>
+                                            </template>
+                                            <template slot="suffix">
+                                              <i class="el-icon-s-flag" style="color: blue"></i>
+                                            </template>
+                                          </el-statistic>
+
+                                            <el-rate
+                                            v-model="essay.rate"
+                                            disabled
+                                            show-score
+                                            text-color="#ff9900"
+                                            score-template="{value}" >
+                                            </el-rate>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <el-input
+                                        type="textarea"
+                                        :rows="3"
+                                        v-model="essay.text"
+                                        readonly
+                                        style="width: 70%;"
+                                        resize="none"
+                                        >
+                                        </el-input>
+                                    </div>
+
+                                
+                                </div></el-col>
+                            </el-row>
+                            </a>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <el-pagination
+                                background
+                                :current-page.sync='mypage'
+                                :total="total_nums"
+                                :page-size="12"
+                                layout="prev, pager, next"
+                            >
+                          </el-pagination>
+                          </div>
+
+
+                    </el-col>
+                    <el-col :span="4">
+                        <a :href="right_img1.linkurl">
+                            <img :src='right_img1.imgurl' style="height:900px;width: 100%;margin-top: 30%;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+                        </a>
+
+                        <a :href="right_img2.linkurl">
+                            <img :src='right_img2.imgurl' style="height:900px;width: 100%;margin-top: 30%;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+                        </a>
+
+                        <a :href="right_img3.linkurl">
+                            <img :src='right_img3.imgurl' style="height:900px;width: 100%;margin-top: 30%;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+                        </a>
+
+                    </el-col>
+                  </el-row>
+
+            </el-main>
+            <el-footer :style="'background-image:url('+foot_back+');background-repeat: no-repeat;background-size: cover;border: 0px;height: 64px;'"></el-footer>
+          </el-container>
+    </div>
+</body>
+
+<style>
+    .el-menu--horizontal.el-menu{
+        border-bottom: 0px;
+        text-decoration: none;
+    }
+
+    .el-menu-item.is-active{
+        background-color: rgba(0, 0, 0, 0) !important;
+
+    }
+    .el-menu-item:hover{
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        
+    }
+ 
+
+
+</style>
+
+
+<script>
+    new Vue({
+    el: '#app',
+    delimiters:['{[',']}'],
+    data: function() {
+        return {
+            activeIndex:"community",
+            essays:[
+                {
+                    title:"文章标题",
+                    headimg:"../static/images/favicon.ico",
+                    text:"这是一个主题文章",
+                    contrb_title:"贡献人数",
+                    contrb_count:300,
+                    link:"./index.html",
+                    rate:3
+
+                },
+                {
+                    title:"文章标题",
+                    headimg:"../static/images/favicon.ico",
+                    text:"这是一个主题文章",
+                    contrb_title:"贡献人数",
+                    contrb_count:300,
+                    link:"",
+                    rate:3
+
+                }
+            ],
+
+
+            mypage:1,
+            total_nums:100,
+                // 头部图片
+                head_back:"../static/images/head_back.png",
+                // 底部图片
+                foot_back:"../static/images/foot_back.png",
+                // 右侧渲染广告图片
+                right_img1:{
+                    imgurl:"../static/images/right_back.png",
+                    linkurl:"../static/images/right_back.png"
+                },
+                right_img2:{
+                    imgurl:"../static/images/right_back.png",
+                    linkurl:"../static/images/right_back.png"
+                },                
+                right_img3:{
+                    imgurl:"../static/images/right_back.png",
+                    linkurl:"../static/images/right_back.png"
+                },
+            }       
+    },
+    methods: {
+        selectIndex(key) {
+            if (key == "login"){
+                window.location.href = "/login"
+            }
+            if (key == "register"){
+                window.location.href = "/register"
+            }
+            if (key == "index"){
+                window.location.href = "/index"
+            }
+            if (key == "community"){
+                window.location.href = "/community"
+            }
+            if (key == "announcement"){
+                window.location.href = "/announcement"
+            }
+            
+        }
+    }
+    })
+</script>
+</html>

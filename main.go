@@ -39,5 +39,11 @@ func main() {
 	userController := controllers.NewUserController(r, "", userService)
 	userController.InitUserController()
 
+	//主页部分 渲染图片 排行榜 头像 登录等
+	indexService := services.NewIndexService(util)
+	indexController := controllers.NewIndexController(r, "", indexService)
+	indexController.InitIndexController()
+
+	//
 	r.Run(appConf.RunConf.Address)
 }
