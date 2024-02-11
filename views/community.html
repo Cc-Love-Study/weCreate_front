@@ -22,8 +22,8 @@
                 <el-menu :default-active="activeIndex"  mode="horizontal" style="background-color: rgba(0, 0, 0, 0);" text-color=#ffffff active-text-color=#ffffff @select="selectIndex">
                     <el-menu-item index="index">主页</el-menu-item>
                     <el-menu-item index="community">社区</el-menu-item>
-                    <el-menu-item index="3">我的发布</el-menu-item>
-                    <el-menu-item index="4">我的关注</el-menu-item>
+                    <el-menu-item index="posting">我的发布</el-menu-item>
+                    <el-menu-item index="concern">我的关注</el-menu-item>
                     <el-menu-item index="announcement">公告</el-menu-item>
                     <el-menu-item index="5">weCreate工作台</el-menu-item>
                     
@@ -210,7 +210,12 @@
             if (key == "announcement"){
                 window.location.href = "/announcement"
             }
-            
+            if (key == "posting"){
+                window.location.href = "/posting"
+            }
+            if (key == "concern"){
+                window.location.href = "/concern"
+            }
         }
     }
     })

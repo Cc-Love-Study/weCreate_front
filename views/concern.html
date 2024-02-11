@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title>
+    <link rel="icon" href="../static/images/favicon.ico" type="image/x-icon" />
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- import Vue before Element -->
+    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入jquery  -->
+    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+
+</head>
+<body style="margin:0px;">
+    <div id="app" >
+        <el-container style="background-color:rgba(30, 133, 180, 0.1)">
+            <el-header :style="'background-image:url('+head_back+');background-repeat: no-repeat;background-size: cover;border: 0px;height: 160px;'">
+                <el-menu :default-active="activeIndex"  mode="horizontal" style="background-color: rgba(0, 0, 0, 0);" text-color=#ffffff active-text-color=#ffffff @select="selectIndex">
+                    <el-menu-item index="index">主页</el-menu-item>
+                    <el-menu-item index="community">社区</el-menu-item>
+                    <el-menu-item index="posting">我的发布</el-menu-item>
+                    <el-menu-item index="concern">我的关注</el-menu-item>
+                    <el-menu-item index="announcement">公告</el-menu-item>
+                    <el-menu-item index="5">weCreate工作台</el-menu-item>
+                    
+                    
+                    <el-menu-item index="login" style="float: right;">登录</el-menu-item>
+                    <el-menu-item index="register" style="float: right;" >注册</el-menu-item>
+                </el-menu>
+            </el-header>
+            <el-main style="margin: 2%;">
+
+                <el-row>
+                    <el-col :span="20">
+                        <div>
+                            <el-select v-model="style_value" placeholder="请选择画风类型" style="width: 20%;margin-left: 3%;">
+                                <el-option
+                                  v-for="item in style_options"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                </el-option>
+                              </el-select>
+
+                              <el-select v-model="is_value" placeholder="免费/有偿" style="width: 20%;">
+                                <el-option
+                                  v-for="item in is_options"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                </el-option>
+                              </el-select>
+    
+                              <el-select v-model="theme_value" placeholder="请选择主题" style="width: 20%;">
+                                <el-option
+                                  v-for="item in theme_options"
+                                  :key="item.value"
+                                  :label="item.label"
+                                  :value="item.value">
+                                </el-option>
+                              </el-select>
+
+                              <el-input placeholder="请输入图片名" v-model="search" style="width: 30%; float:right;margin-right: 5%;">
+                                <el-button slot="append" icon="el-icon-search"></el-button>
+                              </el-input>
+
+
+
+
+                              <el-row style="margin:5%">
+                                <el-col :span="24" v-for="imginfo in imgs">
+                                  <el-card :body-style="{padding: '0px'}" style="margin: 5%;height:auto;width: 800px;">
+                                    <div style="text-align: center;">
+                                        <img :src='imginfo.imgurl' style="height:auto;width: 720px;margin-top: 2%;">
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <el-rate v-model='imginfo.rate' disabled></el-rate>
+                                        <div style="padding: 14px;">
+                                            
+                                                <a :href="imginfo.link" style="text-decoration: none;"><h2>{[imginfo.title]}</h2></a>
+                                                <el-popconfirm
+                                                title="确定取消收藏？"
+                                                >
+                                                <el-button type="warning" slot="reference" icon="el-icon-star-off" circle></el-button>
+                                                </el-popconfirm>
+                                         
+                                        </div>
+                                        <el-tag size="mini">
+                                            {[imginfo.size]}
+                                        </el-tag>
+                                        <el-tag type="success" v-for='lab in imginfo.labs.slice(0,3)' size="mini"  style="margin: 1%;">
+                                            {[lab]}
+                                        </el-tag>
+                                    </div>
+                                  </el-card>
+                                </el-col>
+                              </el-row>
+                             
+              
+
+                              <div style="text-align: center;">
+                                <el-pagination
+                                    background
+                                    :current-page.sync='mypage'
+                                    :total="total_nums"
+                                    :page-size="4"
+                                    layout="prev, pager, next"
+                                >
+                              </el-pagination>
+                              </div>
+
+                        </div>
+
+
+
+                    </el-col>
+                    <el-col :span="4">
+                        <a :href="right_img1.linkurl">
+                            <img :src='right_img1.imgurl' style="height:900px;width: 100%;margin-top: 30%;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+                        </a>
+
+                        <a :href="right_img2.linkurl">
+                            <img :src='right_img2.imgurl' style="height:900px;width: 100%;margin-top: 30%;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+                        </a>
+
+                        <a :href="right_img3.linkurl">
+                            <img :src='right_img3.imgurl' style="height:900px;width: 100%;margin-top: 30%;box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)">
+                        </a>
+
+                    </el-col>
+                  </el-row>
+
+            </el-main>
+            <el-footer :style="'background-image:url('+foot_back+');background-repeat: no-repeat;background-size: cover;border: 0px;height: 64px;'"></el-footer>
+          </el-container>
+    </div>
+</body>
+
+<style>
+    .el-menu--horizontal.el-menu{
+        border-bottom: 0px;
+        text-decoration: none;
+    }
+
+    .el-menu-item.is-active{
+        background-color: rgba(0, 0, 0, 0) !important;
+
+    }
+    .el-menu-item:hover{
+        background-color: rgba(0, 0, 0, 0.5) !important;
+        
+    }
+ 
+
+
+</style>
+
+
+<script>
+    new Vue({
+    el: '#app',
+    delimiters:['{[',']}'],
+    data: function() {
+        return {
+            activeIndex:"concern",
+            imgs: [
+                    {
+                        imgurl:'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        link:'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        rate:2,
+                        size:'720*360',
+                        title:'一个图片',
+                        labs:["美人","d","美人大四的",]
+                    },
+                    {
+                        imgurl: '../static/images/right_back.png',
+                        link:'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        rate:4,
+                        size:'720*360',
+                        title:'一个图片',
+                        labs:["美人","d"]
+                    },
+                    {
+                        imgurl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        link:'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        rate:3,
+                        size:'720*360',
+                        title:'一个图片',
+                        labs:["美人","d"]
+                    },
+                    {
+                        imgurl: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        link:'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
+                        rate:1,
+                        size:'720*360',
+                        title:'一个图片',
+                        labs:["美人","d"]
+                    },
+                 
+                    ],
+
+            
+            mypage:1,
+            total_nums:100,
+                // 头部图片
+                head_back:"../static/images/head_back.png",
+                // 底部图片
+                foot_back:"../static/images/foot_back.png",
+                // 右侧渲染广告图片
+                right_img1:{
+                    imgurl:"../static/images/right_back.png",
+                    linkurl:"../static/images/right_back.png"
+                },
+                right_img2:{
+                    imgurl:"../static/images/right_back.png",
+                    linkurl:"../static/images/right_back.png"
+                },                
+                right_img3:{
+                    imgurl:"../static/images/right_back.png",
+                    linkurl:"../static/images/right_back.png"
+                },
+            }       
+    },
+    methods: {
+        selectIndex(key) {
+            if (key == "login"){
+                window.location.href = "/login"
+            }
+            if (key == "register"){
+                window.location.href = "/register"
+            }
+            if (key == "index"){
+                window.location.href = "/index"
+            }
+            if (key == "community"){
+                window.location.href = "/community"
+            }
+            if (key == "announcement"){
+                window.location.href = "/announcement"
+            }
+            if (key == "posting"){
+                window.location.href = "/posting"
+            }
+            if (key == "concern"){
+                window.location.href = "/concern"
+            }
+        }
+    }
+    })
+</script>
+</html>
